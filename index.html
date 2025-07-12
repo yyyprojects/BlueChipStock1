@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Essential Guide to Blue-Chip Stocks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear structure to guide users from foundational knowledge to practical application. It begins with a "What Are They?" section using interactive cards for easy learning. The "Why Invest?" section uses a toggle to demonstrate portfolio concepts visually. A "Compare Stocks" section features a dynamic chart for direct comparison of stock types, a more engaging method than a static table. Finally, "Explore Companies" presents a filterable gallery for user-driven discovery. This structure prioritizes user exploration and comprehension over the linear format of the source report. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Core Characteristics -> Goal: Inform -> Viz: Interactive cards with icons -> Interaction: Click-to-reveal -> Justification: Breaks down complex info into digestible chunks.
+        - Report Info: Comparison of Stock Types -> Goal: Compare -> Viz: Dynamic bar chart -> Interaction: Buttons update chart data and descriptive text -> Justification: Simplifies multi-attribute comparison into an intuitive, visual format. -> Library: Chart.js.
+        - Report Info: Example Companies -> Goal: Organize/Explore -> Viz: Filterable grid of cards -> Interaction: Buttons filter companies by sector -> Justification: Allows user-driven exploration, which is more engaging than a static list. -> Library: Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #333333;
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #4A90E2;
+            border-bottom-color: #4A90E2;
+        }
+        .characteristic-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .characteristic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        .btn-filter.active {
+            background-color: #4A90E2;
+            color: white;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-xl font-bold text-gray-800">Blue-Chip Guide</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#what-is-it" class="nav-link px-3 py-2 text-sm font-medium text-gray-600 border-b-2 border-transparent">What Is It?</a>
+                        <a href="#why-invest" class="nav-link px-3 py-2 text-sm font-medium text-gray-600 border-b-2 border-transparent">Why Invest?</a>
+                        <a href="#comparison" class="nav-link px-3 py-2 text-sm font-medium text-gray-600 border-b-2 border-transparent">Comparison</a>
+                        <a href="#companies" class="nav-link px-3 py-2 text-sm font-medium text-gray-600 border-b-2 border-transparent">Companies</a>
+                        <a href="#how-to-invest" class="nav-link px-3 py-2 text-sm font-medium text-gray-600 border-b-2 border-transparent">How to Invest</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-20 md:py-28 text-center bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900">The Essential Guide to <span class="text-[#4A90E2]">Blue-Chip Stocks</span></h1>
+                <p class="mt-4 md:mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-600">Understand the what, why, and how of investing in America's most stable and reputable companies. Made simple for everyone.</p>
+            </div>
+        </section>
+
+        <!-- What Is It? Section -->
+        <section id="what-is-it" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">What is a Blue-Chip Stock?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+                        This section introduces the concept of blue-chip stocks. At its core, a blue-chip stock is a share of a large, well-established, and financially sound company with an excellent reputation. Think of them as the titans of the industry. Below, you can explore the key characteristics that define these market leaders, from their immense size to their history of rewarding investors.
+                    </p>
+                </div>
+                <div id="characteristics-grid" class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <!-- Characteristics will be injected here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Invest? Section -->
+        <section id="why-invest" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Why Invest in Blue Chips?</h2>
+                     <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+                        Blue-chip stocks form the bedrock of many investment strategies for good reason. They offer a unique blend of stability, income, and steady growth. This section explores their primary benefits and their role in a diversified portfolio. We'll look at how they provide safety during turbulent times and deliver reliable income, but also acknowledge the trade-offs, such as potentially slower growth compared to riskier investments.
+                    </p>
+                </div>
+                <div class="mt-12 max-w-4xl mx-auto grid gap-8 md:grid-cols-1 lg:grid-cols-3">
+                    <div class="p-6 bg-gray-50 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-900">🛡️ Stability & Capital Preservation</h3>
+                        <p class="mt-2 text-gray-600">Their large size and financial health help them weather economic storms better than smaller companies, making them a safer bet for preserving your capital.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-900">💰 Reliable Income via Dividends</h3>
+                        <p class="mt-2 text-gray-600">Most blue chips have a long history of paying dividends—a share of their profits—to investors, providing a steady stream of income.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-900">📈 Steady, Long-Term Growth</h3>
+                        <p class="mt-2 text-gray-600">While not known for explosive gains, they offer dependable growth over the long run, helping to build wealth consistently.</p>
+                    </div>
+                </div>
+                 <div class="mt-12 p-6 bg-rose-50 border border-rose-200 rounded-lg max-w-4xl mx-auto">
+                    <h3 class="text-lg font-semibold text-rose-900">⚠️ But, Keep in Mind...</h3>
+                    <p class="mt-2 text-rose-800">No investment is without risk. Blue chips can have slower growth potential than smaller companies, and their reputation means they can sometimes be more expensive to buy. True diversification across different asset types is key.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Blue Chips vs. The Market</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+                        How do blue chips stack up against other types of stocks? This interactive chart compares them to high-flying Growth Stocks and smaller, more volatile Small-Cap Stocks. Click the buttons to see how they differ in terms of growth potential, risk level, and dividend reliability. This will help you understand the unique trade-offs each investment style offers.
+                    </p>
+                </div>
+                <div class="mt-12">
+                    <div class="flex justify-center space-x-2 md:space-x-4 mb-8">
+                        <button data-metric="growth" class="comparison-btn btn-filter active px-4 py-2 text-sm font-medium rounded-md border bg-white border-gray-300">Potential Growth</button>
+                        <button data-metric="risk" class="comparison-btn btn-filter px-4 py-2 text-sm font-medium rounded-md border bg-white border-gray-300">Volatility / Risk</button>
+                        <button data-metric="dividends" class="comparison-btn btn-filter px-4 py-2 text-sm font-medium rounded-md border bg-white border-gray-300">Dividend Reliability</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                    <div id="comparison-text" class="mt-8 max-w-2xl mx-auto text-center text-gray-600 bg-gray-50 p-4 rounded-lg">
+                        <!-- Description text updates here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Companies Section -->
+        <section id="companies" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Meet the Blue Chips</h2>
+                     <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+                        The best way to understand blue chips is to see who they are. This section showcases some of the most prominent blue-chip companies in the United States, which are household names and leaders in their fields. Use the filters to explore companies by sector and see the diversity of industries that host these financial giants.
+                    </p>
+                </div>
+                <div id="company-filters" class="mt-12 flex flex-wrap justify-center gap-2">
+                    <!-- Filters will be injected here -->
+                </div>
+                <div id="company-grid" class="mt-8 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <!-- Company cards will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Invest Section -->
+        <section id="how-to-invest" class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">How to Invest</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+                        Ready to get started? Investing in blue chips is more accessible than ever. There are two main paths you can take: buying shares of individual companies directly or investing in funds that hold a collection of them. This section breaks down both options to help you decide which approach is right for your goals and comfort level.
+                    </p>
+                </div>
+                <div class="mt-12 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                    <div class="p-8 bg-white rounded-lg border">
+                        <h3 class="text-xl font-bold text-gray-900">1. Direct Stock Purchase</h3>
+                        <p class="mt-4 text-gray-600">You can buy shares of individual companies like Apple or Walmart through a brokerage account. This gives you direct ownership and control over which companies you invest in.</p>
+                        <ul class="mt-4 space-y-2 text-sm">
+                            <li class="flex items-start"><span class="text-green-500 mr-2">✔️</span><div><strong>Pros:</strong> Full control, potential for higher returns if you pick well.</div></li>
+                            <li class="flex items-start"><span class="text-red-500 mr-2">✖️</span><div><strong>Cons:</strong> Requires more research, less diversification, higher risk if one company performs poorly.</div></li>
+                        </ul>
+                    </div>
+                    <div class="p-8 bg-white rounded-lg border">
+                        <h3 class="text-xl font-bold text-gray-900">2. Funds and ETFs</h3>
+                        <p class="mt-4 text-gray-600">You can buy shares of a mutual fund or an Exchange-Traded Fund (ETF) that holds a basket of many blue-chip stocks. For example, an S&P 500 ETF invests in 500 of the largest U.S. companies.</p>
+                         <ul class="mt-4 space-y-2 text-sm">
+                            <li class="flex items-start"><span class="text-green-500 mr-2">✔️</span><div><strong>Pros:</strong> Instant diversification, lower risk, professionally managed.</div></li>
+                            <li class="flex items-start"><span class="text-red-500 mr-2">✖️</span><div><strong>Cons:</strong> You don't pick the individual stocks, may have management fees.</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 Blue-Chip Guide. For informational purposes only.</p>
+            <p class="text-sm text-gray-400 mt-2">Investing involves risk. Consult with a financial professional before making investment decisions.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const characteristicsData = [
+                { icon: '💰', title: 'Large Market Cap', text: 'Valued in the billions, often over $10 billion, signifying immense size and market presence.' },
+                { icon: '👑', title: 'Industry Leadership', text: 'Often the #1 or #2 player in their field, with a dominant market position and strong brand.' },
+                { icon: '🏛️', title: 'Financial Health', text: 'Known for strong balance sheets, consistent earnings, and low levels of debt.' },
+                { icon: '⏳', title: 'Long Track Record', text: 'Have operated successfully for many years, proving their ability to survive market cycles.' },
+                { icon: '💵', title: 'Consistent Dividends', text: 'A long history of paying out a portion of their profits to shareholders.' },
+                { icon: '📈', title: 'Index Inclusion', text: 'Typically a component of major market indexes like the S&P 500 or Dow Jones.' },
+                { icon: '🌎', title: 'Global Presence', text: 'Operate in multiple countries, which helps to diversify risk and revenue streams.' },
+                { icon: '🛡️', title: 'Excellent Reputation', text: 'Household names that are widely recognized and trusted by consumers.' }
+            ];
+
+            const companiesData = [
+                 { name: 'Microsoft', symbol: 'MSFT', sector: 'Technology', marketCap: '$3.44 Trillion' },
+                 { name: 'Apple', symbol: 'AAPL', sector: 'Technology', marketCap: '$3.04 Trillion' },
+                 { name: 'NVIDIA', symbol: 'NVDA', sector: 'Technology', marketCap: '$3.44 Trillion' },
+                 { name: 'Alphabet (Google)', symbol: 'GOOGL', sector: 'Technology', marketCap: '$2.02 Trillion' },
+                 { name: 'Amazon', symbol: 'AMZN', sector: 'Consumer', marketCap: '$2.18 Trillion' },
+                 { name: 'Walmart', symbol: 'WMT', sector: 'Consumer', marketCap: '$799.9 Billion' },
+                 { name: 'JPMorgan Chase', symbol: 'JPM', sector: 'Financials', marketCap: '$740 Billion' },
+                 { name: 'Eli Lilly', symbol: 'LLY', sector: 'Healthcare', marketCap: '$674 Billion' },
+                 { name: 'Johnson & Johnson', symbol: 'JNJ', sector: 'Healthcare', marketCap: '$350 Billion (est.)' },
+                 { name: 'Procter & Gamble', symbol: 'PG', sector: 'Consumer', marketCap: '$390 Billion (est.)'},
+                 { name: 'The Coca-Cola Co.', symbol: 'KO', sector: 'Consumer', marketCap: '$270 Billion (est.)' },
+                 { name: 'Comcast', symbol: 'CMCSA', sector: 'Communications', marketCap: '$150 Billion (est.)' }
+            ];
+
+            const comparisonData = {
+                growth: {
+                    data: [5, 9, 10],
+                    text: 'Blue chips offer steady, moderate growth. Growth stocks aim for rapid expansion, offering the highest potential returns. Small-caps also have high growth potential as they have more room to expand.'
+                },
+                risk: {
+                    data: [3, 8, 10],
+                    text: 'Blue chips are considered the least volatile and risky due to their stability. Growth stocks carry higher risk as their future is not guaranteed. Small-caps are the most volatile due to their size and vulnerability to market changes.'
+                },
+                dividends: {
+                    data: [9, 2, 1],
+                    text: 'Blue chips are famous for reliable, consistent dividend payments. Growth and Small-cap stocks rarely pay dividends, as they prefer to reinvest all profits back into the business to fuel further growth.'
+                }
+            };
+            
+            // Populate Characteristics
+            const characteristicsGrid = document.getElementById('characteristics-grid');
+            characteristicsData.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'characteristic-card bg-white p-6 rounded-lg shadow-md border border-gray-100';
+                card.innerHTML = `
+                    <div class="text-4xl">${char.icon}</div>
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">${char.title}</h3>
+                    <p class="mt-2 text-sm text-gray-600">${char.text}</p>
+                `;
+                characteristicsGrid.appendChild(card);
+            });
+
+            // Populate Companies and Filters
+            const companyGrid = document.getElementById('company-grid');
+            const companyFilters = document.getElementById('company-filters');
+            const sectors = ['All', ...new Set(companiesData.map(c => c.sector))];
+
+            sectors.forEach(sector => {
+                const button = document.createElement('button');
+                button.className = 'btn-filter px-4 py-2 text-sm font-medium rounded-md border bg-white border-gray-300 transition-colors';
+                button.textContent = sector;
+                button.dataset.sector = sector;
+                if (sector === 'All') {
+                    button.classList.add('active');
+                }
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('#company-filters .btn-filter').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    filterCompanies(sector);
+                });
+                companyFilters.appendChild(button);
+            });
+
+            const renderCompanies = (data) => {
+                companyGrid.innerHTML = '';
+                data.forEach(company => {
+                    const card = document.createElement('div');
+                    card.className = 'company-card bg-gray-50 p-4 rounded-lg border border-gray-200 text-center transition-transform hover:scale-105';
+                    card.innerHTML = `
+                        <h4 class="font-bold text-gray-800">${company.name} (${company.symbol})</h4>
+                        <p class="text-sm text-gray-500">${company.sector}</p>
+                        <p class="mt-2 text-lg font-semibold text-[#4A90E2]">${company.marketCap}</p>
+                    `;
+                    companyGrid.appendChild(card);
+                });
+            };
+
+            const filterCompanies = (sector) => {
+                if (sector === 'All') {
+                    renderCompanies(companiesData);
+                } else {
+                    const filteredData = companiesData.filter(c => c.sector === sector);
+                    renderCompanies(filteredData);
+                }
+            };
+            
+            renderCompanies(companiesData);
+
+            // Comparison Chart
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Blue-Chip Stocks', 'Growth Stocks', 'Small-Cap Stocks'],
+                    datasets: [{
+                        label: 'Score (out of 10)',
+                        data: comparisonData.growth.data,
+                        backgroundColor: ['rgba(74, 144, 226, 0.6)', 'rgba(245, 166, 35, 0.6)', 'rgba(210, 35, 42, 0.6)'],
+                        borderColor: ['#4A90E2', '#F5A623', '#D2232A'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    }
+                }
+            });
+
+            const comparisonText = document.getElementById('comparison-text');
+            const comparisonButtons = document.querySelectorAll('.comparison-btn');
+
+            const updateComparison = (metric) => {
+                comparisonChart.data.datasets[0].data = comparisonData[metric].data;
+                comparisonChart.update();
+                comparisonText.textContent = comparisonData[metric].text;
+                comparisonButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.metric === metric) {
+                        btn.classList.add('active');
+                    }
+                });
+            };
+
+            comparisonButtons.forEach(button => {
+                button.addEventListener('click', () => updateComparison(button.dataset.metric));
+            });
+
+            updateComparison('growth');
+
+            // Nav link active state on scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
